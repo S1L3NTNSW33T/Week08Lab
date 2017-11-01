@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domainmodel;
 
 import java.io.Serializable;
@@ -20,10 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author 725899
- */
+
 @Entity
 @Table(name = "notes")
 @XmlRootElement
@@ -32,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Notes.findByNoteId", query = "SELECT n FROM Notes n WHERE n.noteId = :noteId")
     , @NamedQuery(name = "Notes.findByDateCreated", query = "SELECT n FROM Notes n WHERE n.dateCreated = :dateCreated")
     , @NamedQuery(name = "Notes.findByContents", query = "SELECT n FROM Notes n WHERE n.contents = :contents")})
+
 public class Notes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -94,7 +87,6 @@ public class Notes implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Notes)) {
             return false;
         }
@@ -108,6 +100,6 @@ public class Notes implements Serializable {
     @Override
     public String toString() {
         return "domainmodel.Notes[ noteId=" + noteId + " ]";
-    }
+    } 
     
 }

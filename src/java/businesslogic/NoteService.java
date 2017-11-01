@@ -21,20 +21,21 @@ public class NoteService {
     }
 
     public int update(int noteId, String contents) throws Exception {
+
         java.util.Date date = new java.util.Date();
-         
-        Notes notes = new Notes(noteId, dataaccess.NoteDB.javaDateToSql(date), contents);
+        Notes notes = new Notes(noteId, dataaccess.NoteDB.toSQlDate(date), contents);
         return noteDB.update(notes);
     }
 
     public int delete(int noteId) throws Exception {
+
         Notes deletedNote = noteDB.getNote(noteId);
         return noteDB.delete(deletedNote);
     }
 
     public int insert(String contents) throws Exception {
+
         java.util.Date date = new java.util.Date();
-        
         Notes note = new Notes(-1, date, contents);
         return noteDB.insert(note);
     }

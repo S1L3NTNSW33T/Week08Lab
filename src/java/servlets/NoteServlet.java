@@ -4,7 +4,6 @@ import businesslogic.NoteService;
 import domainmodel.Notes;
 import java.io.IOException;
 import java.util.List;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,38 +14,44 @@ import javax.servlet.http.HttpServletResponse;
 public class NoteServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         NoteService ns = new NoteService();
         String action = request.getParameter("action");
+        
         if (action != null && action.equals("view")) {
+            
             int selectedNoteId = Integer.parseInt(request.getParameter("selectedNoteId"));
+            
             try {
+                
                 Notes notes = ns.get(selectedNoteId);
                 request.setAttribute("selectedNote", notes);
+                
             } catch (Exception ex) {
                 Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        List<Notes> notes = null;        
+        List<Notes> notes = null; 
+        
         try {
+            
             notes = (List<Notes>) ns.getAll();
+            
         } catch (Exception ex) {
             Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         request.setAttribute("notes", notes);
         getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         String action = request.getParameter("action");
         String noteId = request.getParameter("noteId");
-        String dateCreated = request.getParameter("dateCreated");
         String contents = request.getParameter("contents");
         int noteIdInt = -1;
         
@@ -67,14 +72,17 @@ public class NoteServlet extends HttpServlet {
             }
         } catch (Exception ex) {
             request.setAttribute("errorMessage", "Whoops.  Could not perform that action.");
+            ex.printStackTrace();
         }
         
         List<Notes> notes = null;
+        
         try {
             notes = (List<Notes>) ns.getAll();
         } catch (Exception ex) {
             Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         request.setAttribute("notes", notes);
         getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
     }
